@@ -830,7 +830,7 @@
       <li><a href="#philosophy">Philosophy</a></li>
       <li><a href="#case-study">Case Study</a></li>
       <li><a href="#capabilities">Capabilities</a></li>
-      <li><a href="#contact" class="nav-cta">Schedule an Interview</a></li>
+      <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
     </ul>
   </nav>
 
@@ -1227,6 +1227,10 @@
         <div class="cc-item">
           <span class="cc-label">WhatsApp</span>
           <a href="https://wa.me/62895376997788" class="cc-val">+62 895 376 997 788</a>
+        </div>
+        <div class="cc-item">
+          <span class="cc-label">Linkedin</span>
+          <a href="https://www.linkedin.com/in/jayleen19" class="cc-val">Jacky Leonardo</a>
         </div>
         <div class="cc-item">
           <span class="cc-label">Based In</span>
