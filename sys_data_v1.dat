@@ -1,0 +1,1282 @@
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark:       #0E0D0B;
+      --bg-dark-2:     #181713;
+      --bg-dark-3:     #1F1E1A;
+      --bg-light:      #F5F1E9;
+      --bg-cream:      #EDE7DA;
+      --gold:          #C4975B;
+      --gold-2:        #DFBA84;
+      --gold-faint:    rgba(196,151,91,0.12);
+      --gold-border:   rgba(196,151,91,0.25);
+      --gold-border-lg:rgba(196,151,91,0.12);
+      --text-light:    #F2EDE3;
+      --text-muted:    #86837E;
+      --text-subtle:   #5A5752;
+      --text-dark:     #1A1916;
+      --text-body-light:#4D4840;
+      --font-d:        'Cormorant Garamond', Georgia, serif;
+      --font-b:        'Raleway', Helvetica, Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-b);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ────────────────────────────────────────────────
+       NAVIGATION
+    ──────────────────────────────────────────────── */
+   #nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 5rem;
+  
+  /* SAFETY BACKDROP: Subtle dark gradient ensures your white/gold logo never clashes, even on pure white sections */
+  background: linear-gradient(to bottom, rgba(14, 13, 11, 0.95) 0%, rgba(14, 13, 11, 0.4) 60%, transparent 100%);
+  
+  transition: padding .35s ease, background .35s ease, border-color .35s ease;
+  border-bottom: 1px solid transparent;
+}
+
+#nav.scrolled {
+  padding: 1.1rem 5rem;
+  
+  /* SOLID COVERAGE: Forces a solid background layer that overrides white page assets passing underneath */
+  background: #0E0D0B !important;
+  background: rgba(14, 13, 11, 0.98) !important;
+  
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid var(--gold-border) !important;
+}
+
+.nav-logo {
+  font-family: var(--font-d);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--text-light);
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-links .nav-cta {
+  background: var(--gold);
+  color: var(--bg-dark) !important;
+  padding: .6rem 1.5rem;
+  border-radius: 1px;
+  font-size: .65rem;
+  letter-spacing: .2em;
+  transition: background .2s, transform .2s, box-shadow .2s !important;
+}
+
+.nav-links .nav-cta:hover {
+  background: var(--gold-2);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(196,151,91,.3);
+}
+
+
+    /* ────────────────────────────────────────────────
+       HERO
+    ──────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 9rem 5rem 7rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 65% 70% at 68% 38%, rgba(196,151,91,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 55% at 18% 78%, rgba(196,151,91,.04) 0%, transparent 50%),
+        linear-gradient(155deg, #0E0D0B 0%, #1A1813 55%, #0E0D0B 100%);
+    }
+    .hero-texture {
+      position: absolute;
+      inset: 0;
+      opacity: .35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    }
+    .hero-vline {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent 5%, var(--gold-border) 35%, var(--gold-border) 65%, transparent 95%);
+      opacity: .4;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+      opacity: 0;
+      animation: fadeUp .8s ease .15s forwards;
+    }
+    .eyebrow-line { width: 36px; height: 1px; background: var(--gold); flex-shrink: 0; }
+    .eyebrow span {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    #hero h1 {
+      font-family: var(--font-d);
+      font-size: clamp(3.2rem, 6.5vw, 6rem);
+      font-weight: 300;
+      line-height: 1.06;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      letter-spacing: -.01em;
+      opacity: 0;
+      animation: fadeUp .9s ease .3s forwards;
+    }
+    #hero h1 em { font-style: italic; color: var(--gold-2); }
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 3rem;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp .9s ease .5s forwards;
+    }
+    .hero-sub strong { color: var(--text-light); font-weight: 500; }
+    .hero-ctas {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .9s ease .7s forwards;
+    }
+
+    /* side stats */
+    .hero-stats {
+      position: absolute;
+      right: 5.5rem;
+      bottom: 9rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 2.75rem;
+      text-align: right;
+    }
+    .hstat { opacity: 0; animation: fadeUp .8s ease forwards; }
+    .hstat:nth-child(1) { animation-delay: .9s; }
+    .hstat:nth-child(2) { animation-delay: 1.1s; }
+    .hstat:nth-child(3) { animation-delay: 1.3s; }
+    .hstat-num {
+      font-family: var(--font-d);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold-2);
+      line-height: 1;
+      display: block;
+    }
+    .hstat-label {
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-top: .3rem;
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeUp .8s ease 1.4s forwards;
+    }
+    .scroll-hint span {
+      font-size: .6rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+    }
+    .sh-line { width: 40px; height: 1px; background: var(--gold-border); position: relative; overflow: hidden; }
+    .sh-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--gold);
+      animation: shline 2s ease infinite;
+    }
+
+    /* ────────────────────────────────────────────────
+       MARQUEE
+    ──────────────────────────────────────────────── */
+    .marquee-band {
+      border-top: 1px solid var(--gold-border);
+      border-bottom: 1px solid var(--gold-border);
+      padding: .9rem 0;
+      overflow: hidden;
+      background: rgba(196,151,91,.04);
+    }
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: mq 35s linear infinite;
+    }
+    .mq-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2.5rem;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .mq-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+    /* ────────────────────────────────────────────────
+       SHARED SECTION ELEMENTS
+    ──────────────────────────────────────────────── */
+    .section { padding: 7.5rem 5rem; }
+    .container { max-width: 1220px; margin: 0 auto; }
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .sec-label-line { width: 28px; height: 1px; background: var(--gold); flex-shrink: 0; }
+    .sec-label span {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ────────────────────────────────────────────────
+       BUTTONS
+    ──────────────────────────────────────────────── */
+    .btn-p, .btn-s, .btn-p-dark, .btn-s-dark {
+  display: inline-block;
+  font-family: var(--font-b);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 2.5rem;
+  border-radius: 1px;
+  
+  /* FORCE MOUSE HIT INTERACTION ON EXECUTED STRINGS */
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  
+  transition: background .25s, color .25s, border-color .25s, transform .25s, box-shadow .25s;
+}
+
+.btn-p {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border: 1.5px solid var(--gold);
+}
+
+.btn-p:hover {
+  background: var(--gold-2);
+  border-color: var(--gold-2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(196,151,91,.35);
+}
+
+.btn-s {
+  background: transparent;
+  color: var(--text-light);
+  border: 1.5px solid var(--gold-border);
+}
+
+.btn-s:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.btn-p-dark {
+  background: var(--gold);
+  color: var(--bg-dark);
+  border: 1.5px solid var(--gold);
+}
+
+/* Base style properties are already inherited from the top structural selector rule */
+.btn-p-dark:hover {
+  background: var(--gold-2);
+  border-color: var(--gold-2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(196,151,91,.35);
+}
+
+.btn-s-dark {
+  background: transparent;
+  color: var(--text-dark);
+  border: 1.5px solid rgba(26,25,22,.25);
+}
+
+.btn-s-dark:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
+
+    /* ────────────────────────────────────────────────
+       PHILOSOPHY / TRUST SECTION
+    ──────────────────────────────────────────────── */
+    #philosophy {
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 7rem;
+      align-items: start;
+    }
+    .trust-left h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 4.2vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text-dark);
+      margin-bottom: 1.75rem;
+    }
+    .trust-left h2 em { font-style: italic; color: var(--gold); }
+    .trust-left .lead {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.85;
+      color: var(--text-body-light);
+    }
+    .trust-left .lead + .lead { margin-top: 1.25rem; }
+
+    .trust-cards { display: flex; flex-direction: column; gap: 0; }
+    .trust-card {
+      border-left: 2px solid var(--gold);
+      padding: 1.75rem 0 1.75rem 2rem;
+      border-bottom: 1px solid rgba(196,151,91,.15);
+      transition: background .25s;
+    }
+    .trust-card:last-child { border-bottom: none; }
+    .trust-card:hover { background: rgba(196,151,91,.04); }
+    .trust-card h4 {
+      font-family: var(--font-d);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: .5rem;
+    }
+    .trust-card p {
+      font-size: .9rem;
+      color: var(--text-body-light);
+      line-height: 1.8;
+    }
+
+    /* ────────────────────────────────────────────────
+       CASE STUDY
+    ──────────────────────────────────────────────── */
+    #case-study {
+      background: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .cs-glow {
+      position: absolute;
+      top: -120px; right: -220px;
+      width: 650px; height: 650px;
+      background: radial-gradient(circle, rgba(196,151,91,.09) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .cs-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-bottom: 5.5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--gold-border);
+      align-items: end;
+    }
+    .cs-title h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 4.5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.08;
+      margin-bottom: 1.25rem;
+    }
+    .cs-title h2 em { font-style: italic; color: var(--gold-2); }
+    .cs-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-border);
+      padding: .5rem 1.25rem .5rem 1rem;
+      border-radius: 1px;
+    }
+    .cs-badge::before { content: '✦'; color: var(--gold); font-size: .7rem; }
+    .cs-badge span {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .custom-hover-badge {
+      margin-top: 1.5rem; 
+     text-decoration: none; 
+      display: inline-block;
+      transition: all 0.3s ease; /* Controls the speed of the animation */
+    }
+
+    .custom-hover-badge:hover {
+      transform: translateY(-2px); /* Lifts the badge slightly */
+      opacity: 0.9;                /* Softens the color slightly */
+    }
+
+    .cs-meta p {
+      font-size: .95rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+    }
+    .cs-meta p + p { margin-top: 1rem; }
+
+    .cs-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3.5rem;
+    }
+    .cs-pillar {}
+    .cs-step {
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+    .cs-step::before { content: ''; width: 18px; height: 1px; background: var(--gold); }
+    .cs-pillar h3 {
+      font-family: var(--font-d);
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1.1rem;
+    }
+    .cs-pillar p {
+      font-size: .9rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+    }
+    .cs-pillar p + p { margin-top: .85rem; }
+
+    /* ────────────────────────────────────────────────
+       RESULTS BAR
+    ──────────────────────────────────────────────── */
+    .results-bar {
+      background: var(--gold);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 4.5rem 5rem;
+    }
+    .res-stat {
+      text-align: center;
+      position: relative;
+      padding: 0 3rem;
+    }
+    .res-stat:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 8%; bottom: 8%;
+      width: 1px;
+      background: rgba(14,13,11,.2);
+    }
+    .res-num {
+      font-family: var(--font-d);
+      font-size: 4.2rem;
+      font-weight: 300;
+      color: var(--bg-dark);
+      line-height: 1;
+      display: block;
+    }
+    .res-label {
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(14,13,11,.65);
+      display: block;
+      margin-top: .5rem;
+    }
+
+    /* ────────────────────────────────────────────────
+       CAPABILITIES
+    ──────────────────────────────────────────────── */
+    #capabilities {
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+    .cap-head { max-width: 620px; margin-bottom: 5.5rem; }
+    .cap-head h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 4.2vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .cap-head h2 em { font-style: italic; color: var(--gold); }
+    .cap-head p { font-size: 1rem; color: var(--text-body-light); line-height: 1.8; }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--bg-cream);
+    }
+    .pillar {
+      background: var(--bg-cream);
+      padding: 3rem 2.5rem;
+      transition: background .3s;
+      cursor: default;
+    }
+    .pillar:hover { background: var(--text-dark); }
+    .pillar:hover .pillar-num { color: rgba(196,151,91,.2); }
+    .pillar:hover .pillar-title { color: var(--text-light); }
+    .pillar:hover .pillar-desc { color: var(--text-muted); }
+    .pillar:hover .pillar-sep { background: var(--gold-border); }
+    .pillar:hover .pillar-li { color: var(--text-muted); }
+
+    .pillar-num {
+      font-family: var(--font-d);
+      font-size: 4.5rem;
+      font-weight: 300;
+      color: rgba(196,151,91,.18);
+      line-height: 1;
+      margin-bottom: 2rem;
+      display: block;
+      transition: color .3s;
+    }
+    .pillar-title {
+      font-family: var(--font-d);
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: .9rem;
+      line-height: 1.18;
+      transition: color .3s;
+    }
+    .pillar-desc {
+      font-size: .88rem;
+      color: var(--text-body-light);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      transition: color .3s;
+    }
+    .pillar-sep { width: 28px; height: 1px; background: var(--gold); margin-bottom: 1.5rem; transition: background .3s; }
+    .pillar-list { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .pillar-li {
+      font-size: .82rem;
+      color: #4A4540;
+      font-weight: 500;
+      letter-spacing: .02em;
+      padding-left: 1.1rem;
+      position: relative;
+      transition: color .3s;
+    }
+    .pillar-li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: .75rem;
+    }
+
+    /* ────────────────────────────────────────────────
+       FINAL CTA
+    ──────────────────────────────────────────────── */
+    #contact {
+      background: var(--bg-dark-3);
+      text-align: center;
+      padding: 9rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 55% at 50% 50%, rgba(196,151,91,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+    .cta-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .cta-label-line { width: 28px; height: 1px; background: var(--gold); }
+    .cta-label span {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .cta-inner h2 {
+      font-family: var(--font-d);
+      font-size: clamp(2.5rem, 4.5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.12;
+      margin-bottom: 1.5rem;
+    }
+    .cta-inner h2 em { font-style: italic; color: var(--gold-2); }
+    .cta-inner p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 3rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 4.5rem;
+    }
+    .cta-contacts {
+      display: flex;
+      gap: 3.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-top: 3rem;
+      border-top: 1px solid var(--gold-border-lg);
+    }
+    .cc-item { display: flex; flex-direction: column; gap: .25rem; text-align: left; }
+    .cc-label {
+      font-size: .6rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .cc-val {
+      font-size: .92rem;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .cc-val:hover { color: var(--gold-2); }
+
+    /* ────────────────────────────────────────────────
+       FOOTER
+    ──────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-dark);
+      padding: 2rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--gold-border-lg);
+    }
+    .f-logo { font-family: var(--font-d); font-size: 1.15rem; color: var(--text-muted); }
+    .f-logo span { color: var(--gold); }
+    .f-copy { font-size: .68rem; color: var(--text-subtle); letter-spacing: .04em; }
+    .f-links { display: flex; gap: 2rem; list-style: none; }
+    .f-links a {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--text-subtle);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .f-links a:hover { color: var(--gold); }
+
+    /* ────────────────────────────────────────────────
+       REVEAL ANIMATIONS
+    ──────────────────────────────────────────────── */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .85s ease, transform .85s ease;
+    }
+    .rv.vis { opacity: 1; transform: translateY(0); }
+    .rv.d1 { transition-delay: .1s; }
+    .rv.d2 { transition-delay: .2s; }
+    .rv.d3 { transition-delay: .3s; }
+    .rv.d4 { transition-delay: .4s; }
+
+    /* ────────────────────────────────────────────────
+       KEYFRAMES
+    ──────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes mq {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes shline {
+      from { left: -100%; }
+      to   { left: 100%; }
+    }
+
+    /* ────────────────────────────────────────────────
+       RESPONSIVE
+    ──────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #nav, #nav.scrolled { padding-left: 2.5rem; padding-right: 2.5rem; }
+      #hero { padding: 8rem 2.5rem 7rem; }
+      .hero-stats { display: none; }
+      .scroll-hint { left: 2.5rem; }
+      .section { padding: 6rem 2.5rem; }
+      .results-bar { padding: 4rem 2.5rem; }
+      footer { padding: 2rem 2.5rem; }
+      #contact { padding: 7rem 2.5rem; }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .trust-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .cs-header { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cs-pillars { grid-template-columns: 1fr; gap: 3rem; }
+      .results-bar { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+      .res-stat:not(:last-child)::after { display: none; }
+      .pillars { grid-template-columns: 1fr; gap: 2px; }
+      .cta-contacts { flex-direction: column; gap: 1.5rem; align-items: center; }
+      .cc-item { text-align: center; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .f-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      #hero h1 { font-size: 2.8rem; }
+      .hero-ctas { flex-direction: column; }
+      .btn-p, .btn-s { text-align: center; }
+    }
+  </style>
+  <!-- ══════════════════════════════════════════════
+       NAVIGATION
+  ══════════════════════════════════════════════ -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">Jacky <span>Leonardo</span></a>
+    <ul class="nav-links">
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="#contact" class="nav-cta">Schedule an Interview</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-texture"></div>
+    <div class="hero-vline"></div>
+
+    <div class="hero-content">
+      <div class="eyebrow">
+        <div class="eyebrow-line"></div>
+        <span>Digital Growth Lead &amp; Brand Director </span>
+      </div>
+
+      <h1>
+        Your Property Is<br>
+        Premium. Your<br>
+        <em>Digital Authority</em><br>
+        Should Be Too.
+      </h1>
+
+      <p class="hero-sub">
+        I don't build beautiful feeds — I build <strong>high-trust digital presences</strong>
+        that convert serious investors and qualified buyers. Bridging luxury visual
+        storytelling with commercial ROI, backed by <strong>6+ years</strong> of
+        full-stack content strategy.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-p">Let's Talk Strategy</a>
+        <a href="#case-study" class="btn-s">View Case Study</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat">
+        <span class="hstat-num">5000+</span>
+        <span class="hstat-label">Verified Followers Scaled</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-num">6 Years +</span>
+        <span class="hstat-label">Full-Stack Strategy</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-num">Loss → Profit</span>
+        <span class="hstat-label">Company Growth</span>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="sh-line"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       MARQUEE
+  ══════════════════════════════════════════════ -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="mq-item"><span class="mq-dot"></span>Social Media Strategy</div>
+      <div class="mq-item"><span class="mq-dot"></span>Brand Authority</div>
+      <div class="mq-item"><span class="mq-dot"></span>High-Value Lead Generation</div>
+      <div class="mq-item"><span class="mq-dot"></span>Leadership, Management &amp; Communication</div>
+      <div class="mq-item"><span class="mq-dot"></span>Photo &amp; Video Direction</div>
+      <div class="mq-item"><span class="mq-dot"></span>Regulatory Content Marketing</div>
+      <div class="mq-item"><span class="mq-dot"></span>Investor-Grade Copywriting</div>
+      <div class="mq-item"><span class="mq-dot"></span>Data-Driven Optimization</div>
+      <div class="mq-item"><span class="mq-dot"></span>Adobe &amp; Affinity Suite</div>
+      <div class="mq-item"><span class="mq-dot"></span>Bilingual ID / EN</div>
+      <div class="mq-item"><span class="mq-dot"></span>Algorithm Analytics</div>
+      <div class="mq-item"><span class="mq-dot"></span>Social Media Strategy</div>
+      <div class="mq-item"><span class="mq-dot"></span>Brand Authority</div>
+      <div class="mq-item"><span class="mq-dot"></span>High-Value Lead Generation</div>
+      <div class="mq-item"><span class="mq-dot"></span>Leadership, Management &amp; Communication</div>
+      <div class="mq-item"><span class="mq-dot"></span>Photo &amp; Video Direction</div>
+      <div class="mq-item"><span class="mq-dot"></span>Regulatory Content Marketing</div>
+      <div class="mq-item"><span class="mq-dot"></span>Investor-Grade Copywriting</div>
+      <div class="mq-item"><span class="mq-dot"></span>Data-Driven Optimization</div>
+      <div class="mq-item"><span class="mq-dot"></span>Adobe &amp; Affinity Suite</div>
+      <div class="mq-item"><span class="mq-dot"></span>Bilingual ID / EN</div>
+      <div class="mq-item"><span class="mq-dot"></span>Algorithm Analytics</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — WHY TRUST MATTERS
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="philosophy">
+    <div class="container">
+      <div class="sec-label rv">
+        <div class="sec-label-line"></div>
+        <span>The Foundation</span>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-left">
+          <h2 class="rv">
+            In Luxury Real Estate,<br>
+            Aesthetics sparks interest.<br>
+            <em>Trust closes the deal.</em>
+          </h2>
+          <p class="lead rv d1">
+            Anyone can post a stunning villa at golden hour. But when a high-net-worth
+            buyer is committing hundreds of thousands of dollars to a Bali property, they are
+            not buying aesthetics. They are buying certainty — legal clarity, market
+            credibility, and the quiet confidence that your brand genuinely knows this
+            landscape inside and out.
+          </p>
+          <p class="lead rv d2" style="margin-top:1.25rem">
+            That is the gap I close. My background building digital authority for a legal
+            services firm — from absolute zero — taught me how to transform dense regulatory
+            knowledge into trust-driving content that converts serious audiences, not casual
+            scrollers. I bring that exact discipline to premium Bali real estate: where every
+            post must do more than look beautiful. It must make a serious person trust you
+            enough to pick up the phone.
+          </p>
+        </div>
+
+        <div class="trust-cards rv d1">
+          <div class="trust-card">
+            <h4>The Problem With Vanity Metrics</h4>
+            <p>
+              Most content agencies chase reach and impressions. In luxury real estate,
+              irrelevant volume actively erodes credibility. One post that educates a
+              verified investor on ownership structures, leasehold terms, or tax treaty
+              implications is worth ten thousand empty likes. I build for the former.
+            </p>
+          </div>
+          <div class="trust-card">
+            <h4>The Legal-to-Luxury Transfer</h4>
+            <p>
+              I spent years distilling complex Indonesian government regulations into
+              digestible, share-worthy content for a professional services audience.
+              Translating legal frameworks, compliance obligations, and market data into
+              compelling visuals is second nature to me — and luxury property investment
+              demands exactly this kind of rigorous, trust-first storytelling.
+            </p>
+          </div>
+          <div class="trust-card">
+            <h4>Full-Stack Foundation. Scalable Leadership.</h4>
+            <p>
+              I am prepared to step into early-stage environments to architect your digital
+              authority from the ground up. Brief me on the property, the investor
+              profile, and the commercial objective. I handle the immediate heavy lifting—creative
+              strategy, lead pipelines, and data analytics.—with zero hand-holding. Your
+              team focuses on closing deals. Once the foundation is solid, my focus shifts
+              to operational management: building and supervising a team to keep HNWI
+              investors arriving pre-qualified and ready to act.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — CASE STUDY
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="case-study">
+    <div class="cs-glow"></div>
+    <div class="container" style="position:relative;z-index:2">
+
+      <div class="sec-label rv">
+        <div class="sec-label-line"></div>
+        <span>Featured Case Study</span>
+      </div>
+
+      <div class="cs-header">
+        <div class="cs-title rv">
+          <h2>
+            From Zero Digital Presence<br>
+            to <em>Qualified Authority.</em>
+          </h2>
+          <a href="https://www.instagram.com/rewang_rencang" class="cs-badge custom-hover-badge">
+            <span>Rewang Rencang — Business Law Firm, Indonesia</span>
+          </a>
+        </div>
+        <div class="cs-meta rv d1">
+          <p>
+            A professional services firm navigating one of the most demanding digital
+            environments: high-stakes subject matter, a trust-sensitive audience, complex
+            regulatory content — and no existing digital presence whatsoever.
+          </p>
+          <p>
+            Sound familiar to what luxury real estate demands? Here is exactly what
+            happened when we built the company digital authority strategy as we grow:
+            attract the right people, not just any people.
+          </p>
+        </div>
+      </div>
+
+      <div class="cs-pillars">
+        <div class="cs-pillar rv">
+          <div class="cs-step">01 — The Challenge</div>
+          <h3>A High-Stakes Brand With No Digital Voice</h3>
+          <p>
+            Rewang Rencang provided critical legal counsel to Indonesian
+            businesses, navigating everything from initial corporate setup
+            and intellectual property registration to complex ongoing government
+            compliance and regulatory frameworks. Their expertise was exceptional
+            — but their digital presence was nonexistent, and their business was
+            operating at a loss.
+          </p>
+          <p>
+              The challenge was not simply growth. It was credibility. Every post had to
+              reinforce that this was a firm capable of handling serious legal 
+              matters. Frivolous content was not an option. Neither was being ignored.
+          </p>
+        </div>
+
+        <div class="cs-pillar rv d1">
+          <div class="cs-step">02 — The Strategy</div>
+          <h3>Authority Over Volume. Verified Audiences Over Vanity.</h3>
+          <p>
+            I built an editorial strategy around demystifying Indonesian government
+            regulations and business compliance — the precise pain points of the firm's
+            ideal clientele. Each content piece served as a proof of expertise: carousels
+            breaking down compliance laws, short-form explainers on corporate legal permits.
+          </p>
+          <p>
+            I managed the full production pipeline — shoot direction, editor briefings,
+            design execution in Canva and Affinity, copywriting in Indonesian,
+            and continuous performance analysis to sharpen the algorithm's
+            understanding of our target audience segment.
+          </p>
+        </div>
+
+        <div class="cs-pillar rv d2">
+          <div class="cs-step">03 — The Results</div>
+          <h3>From Zero Followers to Stable Business Profitability</h3>
+          <p>
+            The account scaled from 0 to 5,000 highly targeted, professionally verified
+            followers. These were not passive spectators: they were business owners, founders,
+            and compliance officers — the exact high-intent clients the firm needed.
+          </p>
+          <p>
+            The commercial outcome was unambiguous. The firm transitioned from a
+            loss-making entity to stable profitability. Digital authority, built through
+            strategic content, became the firm's one of the most effective business
+            development channel.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       RESULTS BAR
+  ══════════════════════════════════════════════ -->
+  <div class="results-bar" role="region" aria-label="Key results">
+    <div class="res-stat rv">
+      <span class="res-num">5,000+</span>
+      <span class="res-label">Verified, Targeted Followers</span>
+    </div>
+    <div class="res-stat rv d1">
+      <span class="res-num">Loss → Profit</span>
+      <span class="res-label">Business Turnaround Through Digital Authority</span>
+    </div>
+    <div class="res-stat rv d2">
+      <span class="res-num">End-to-End</span>
+      <span class="res-label">Full Production and Lead Generation Pipeline</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — CAPABILITIES
+  ══════════════════════════════════════════════ -->
+  <section class="section" id="capabilities">
+    <div class="container">
+      <div class="sec-label rv">
+        <div class="sec-label-line"></div>
+        <span>Core Capabilities</span>
+      </div>
+
+      <div class="cap-head">
+        <h2 class="rv">
+          Three Pillars.<br>
+          <em>One Outcome:</em><br>
+          Market Authority.
+        </h2>
+        <p class="rv d1">
+          Every capability I bring to your brand is calibrated toward a single commercial
+          goal: making serious buyers and investors trust your properties before they ever
+          request a viewing.
+        </p>
+      </div>
+
+      <div class="pillars">
+        <!-- Pillar 1 -->
+        <div class="pillar rv">
+          <span class="pillar-num">01</span>
+          <div class="pillar-title">Strategic &amp; Trust-Based Marketing</div>
+          <p class="pillar-desc">
+            I architect content ecosystems built around credibility, not clout.
+            In a market where a misplaced claim can cost a deal, every post is
+            engineered to deepen trust with your highest-value audience — HNW
+            investors, relocation buyers, and development-stage clients actively
+            researching their next commitment.
+          </p>
+          <div class="pillar-sep"></div>
+          <ul class="pillar-list">
+            <li class="pillar-li">Regulatory &amp; Compliance Content for Real Estate</li>
+            <li class="pillar-li">Brand Authority Architecture</li>
+            <li class="pillar-li">High-Value Investor Lead Nurturing</li>
+            <li class="pillar-li">Bilingual Strategy — Bahasa Indonesia &amp; English</li>
+            <li class="pillar-li">Platform Algorithm Optimization</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="pillar rv d1">
+          <span class="pillar-num">02</span>
+          <div class="pillar-title">Production &amp; Creative Coordination</div>
+          <p class="pillar-desc">
+            From villa shoot direction to final published post, I am capable to build 
+            the entire creative pipeline. I brief photographers and videographers,
+            coordinate editors, and maintain an uncompromising brand voice
+            across every asset — ensuring your visual identity is as premium as
+            your property portfolio.
+          </p>
+          <div class="pillar-sep"></div>
+          <ul class="pillar-list">
+            <li class="pillar-li">Photo &amp; Video Shoot Direction</li>
+            <li class="pillar-li">Post-Production Management</li>
+            <li class="pillar-li">Brand Voice &amp; Visual Identity Governance</li>
+            <li class="pillar-li">Canva / Affinity / Adobe Suite Production</li>
+            <li class="pillar-li">CapCut &amp; Short-Form Video Editing</li>
+          </ul>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="pillar rv d2">
+          <span class="pillar-num">03</span>
+          <div class="pillar-title">Tech, Data &amp; Performance Analytics</div>
+          <p class="pillar-desc">
+            A Bachelor of Information Systems is not a standard credential for a content
+            strategist — and that is precisely the competitive edge. I don't estimate
+            algorithm behavior; I analyze it. Every creative decision is grounded in
+            performance data, audience segmentation, and iterative optimization cycles.
+          </p>
+          <div class="pillar-sep"></div>
+          <ul class="pillar-list">
+            <li class="pillar-li">CS-Backed Algorithm &amp; Reach Analysis</li>
+            <li class="pillar-li">Platform Insights &amp; Audience Segmentation</li>
+            <li class="pillar-li">Content Performance Reporting</li>
+            <li class="pillar-li">A/B Testing &amp; Iterative Optimization</li>
+            <li class="pillar-li">Data-Driven Content Calendar Planning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 5 — FINAL CTA
+  ══════════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="cta-glow"></div>
+    <div class="cta-inner">
+      <div class="cta-label rv">
+        <div class="cta-label-line"></div>
+        <span>Let's Build Something Extraordinary</span>
+        <div class="cta-label-line"></div>
+      </div>
+
+      <h2 class="rv d1">
+        Your Next High-Value Buyer<br>
+        Is Looking for a <em>Brand They Can Trust.</em>
+      </h2>
+
+      <p class="rv d2">
+        If you're a founder, marketing director, or hiring manager at PT Pillai Ward
+        Development Group, and you're serious about building a digital authority that
+        attracts verified, high-intent clients — not just a beautiful Instagram grid —
+        let's talk. <br><br> I currently have one availability for an exclusive long-term partnership,
+        and I want it to be yours. I am ready to step in and design the brand-new digital
+        chapter for Pillai Ward from the ground up, applying the exact trust-building
+        frameworks that scale high-stakes brands.
+      </p>
+
+      <div class="cta-btns rv d3">
+        <a href="https://wa.me/62895376997788" class="btn-p">Let's Talk</a>
+      </div>
+
+      <div class="cta-contacts rv d4">
+        <div class="cc-item">
+          <span class="cc-label">Email</span>
+          <a href="mailto:contact@jackyleonardo.my.id" class="cc-val">contact@jackyleonardo.my.id</a>
+        </div>
+        <div class="cc-item">
+          <span class="cc-label">WhatsApp</span>
+          <a href="https://wa.me/62895376997788" class="cc-val">+62 895 376 997 788</a>
+        </div>
+        <div class="cc-item">
+          <span class="cc-label">Based In</span>
+          <a href="https://maps.app.goo.gl/AZvSBKEY3PKDzqTr6" target="_blank" rel="noopener" class="cc-val">Kediri, Tabanan, Bali</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer>
+    <div class="f-logo">Jacky <span>Leonardo</span></div>
+    <p class="f-copy">© 2026 | Jacky Leonardo | Digital Growth Lead &amp; Brand Director</p>
+    <ul class="f-links">
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#case-study">Case Study</a></li>
+      <li><a href="#capabilities">Capabilities</a></li>
+      <li><a href="mailto:jayleen@leenbranding.com">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Navbar scroll state
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 70);
+    }, { passive: true });
+
+    // Scroll-reveal using IntersectionObserver
+    var rvEls = document.querySelectorAll('.rv');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('vis');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    rvEls.forEach(function(el) { observer.observe(el); });
+
+    // Smooth anchor scrolling for older browsers
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>

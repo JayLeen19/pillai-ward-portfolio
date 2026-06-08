@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jacky Leonardo — Digital Growth Lead & Brand Director</title>
+  <meta name="description" content="I don't build beautiful feeds. I build high-trust digital presences that convert serious investors and qualified buyer." />
+  <link rel="preconnect" href="https://googleapis.com" />
+  <link rel="preconnect" href="https://gstatic.com" crossorigin />
+  <link href="https://googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body style="background:#0E0D0B; margin:0; padding:0;">
+
+  <!-- Main empty container node -->
+  <div id="app-root"></div>
+
+  <script>
+    (function() {
+      // 1. Anti-Inspector Input Safeguards
+      document.onkeydown = function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+          return false;
+        }
+      };
+
+      // Continuous debugger trap loop to freeze unvetted inspection attempts
+      setInterval(function() {
+        (function() { return false; }['constructor']('debugger')());
+      }, 50);
+
+      // 2. Advanced Asynchronous Payload Execution
+      fetch('sys_data_v1.dat')
+        .then(response => {
+          if (!response.ok) throw new Error();
+          return response.text();
+        })
+        .then(payloadString => {
+          // Parse and inject the style rules into browser memory first
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(payloadString, 'text/html');
+          const hiddenStyles = doc.querySelector('style');
+          
+          if (hiddenStyles) {
+            document.head.appendChild(hiddenStyles);
+          }
+
+          // Inject structural content layouts safely into the container node
+          document.getElementById('app-root').innerHTML = payloadString;
+          
+          // Force activation of scroll reveal tracking loops
+          initializeScrollAnimations();
+        })
+        .catch(err => console.clear());
+    })();
+
+    function initializeScrollAnimations() {
+      const rvEls = document.querySelectorAll('.rv');
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('vis');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      rvEls.forEach(function(el) { observer.observe(el); });
+    }
+    
+    fetch('sys_data_v1.dat')
+        .then(response => response.text())
+        .then(payloadString => {
+            // 1. Process and inject styles first
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(payloadString, 'text/html');
+            const hiddenStyles = doc.querySelector('style');
+            if (hiddenStyles) document.head.appendChild(hiddenStyles);
+
+        // 2. Inject your structural layout
+        document.getElementById('app-root').innerHTML = payloadString;
+    
+         // 3. ACTIVATE THE SCROLL LISTENERS IMMEDIATELY AFTER INJECTION
+            const navBar = document.getElementById('nav');
+            if (navBar) {
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                navBar.classList.add('scrolled');
+                } else {
+                navBar.classList.remove('scrolled');
+                }
+            }, { passive: true });
+            }
+
+    // Force animations loop to fire
+    initializeScrollAnimations();
+  });
+
+  </script>
+</body>
+</html>
